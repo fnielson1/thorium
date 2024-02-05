@@ -112,8 +112,21 @@ yarn start
 Then open [the app](http://localhost:3000) or
 [GraphiQL](http://localhost:3001/graphiql)
 
-Note: If you have errors during `yarn install` that involve `node-gyp`, deleting
-the `%LocalAppData%/node-gyp/Cache` folder should resolve the issues.
+### Potential issues
+
+If you have errors when trying to run `yarn install`:
+
+`[path_to_your_AppData_folder]\Roaming\npm\yarn.ps1 cannot be loaded because running scripts is disabled on this system. For more information, see about_Execution_Policies.`
+
+You can fix it by running in CMD:
+
+`Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`
+
+If you have errors that involve `node-gyp`:
+
+Make certain that you have the latest Python installed.
+
+Deleting the `%LocalAppData%/node-gyp/Cache` folder should resolve the issues.
 
 ## Building the App
 
