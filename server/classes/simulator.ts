@@ -1,4 +1,3 @@
-import uuid from "uuid";
 import App from "../app";
 import Team from "./teams";
 import DamageStep from "./generic/damageStep";
@@ -14,9 +13,9 @@ import Ambiance from "./ambiance";
 import Lighting from "./lighting";
 import RemoteAccess from "./remoteAccess";
 import Document from "./document";
+import {BaseClass} from "./baseClass";
 
-export default class Simulator {
-  id: string;
+export default class Simulator extends BaseClass<Simulator> {
   name: string;
   layout: string;
   caps: boolean;
@@ -66,7 +65,7 @@ export default class Simulator {
   spaceEdventuresId: string | null;
 
   constructor(params: Partial<Simulator> = {}, newlyCreated: boolean = false) {
-    this.id = params.id || uuid.v4();
+    super(params);
     this.name = params.name || "Simulator";
     this.layout = params.layout || "LayoutCorners";
     this.caps = params.caps || false;
@@ -469,7 +468,7 @@ export default class Simulator {
       .reduce((acc, record) => {
         const d = new Date(record.timestamp);
         if (!isValidDate(d)) return acc;
-        if (acc > d) return acc;
+        if (new Date(acc) > d) return acc;
         return d;
       }, 0);
 

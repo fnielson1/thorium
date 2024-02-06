@@ -1,11 +1,17 @@
 import uuid from "uuid";
 import {camelCase} from "change-case";
 import Fuzz from "fuse.js";
+import {BaseClass} from "~classes/baseClass";
 
-export default class Trigger {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "Trigger";
+export default class Trigger extends BaseClass<Trigger> {
+  templateId: string;
+  components: any[];
+  connections: any[];
+  values: any[];
+  config: any[];
+
+  constructor(params: Partial<Trigger>) {
+    super(params, "Trigger");
 
     this.simulatorId = params.simulatorId || null;
     this.templateId = params.templateId || null;

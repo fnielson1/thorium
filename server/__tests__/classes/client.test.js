@@ -1,15 +1,15 @@
-import Client from "../../classes/client";
+import ThoriumClient from "../../classes/thoriumClient";
 
 describe("Client", () => {
   test("should throw if called without the 'new' operator", () => {
     expect(() => {
-      Client();
+      ThoriumClient();
     }).toThrow(/Class constructor Client cannot be invoked without 'new'/);
   });
 
   describe("constructor", () => {
     test("should set default parameters", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       expect(c.id).toEqual(
         expect.stringMatching(
           /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/,
@@ -32,19 +32,19 @@ describe("Client", () => {
     });
 
     test("should create a Scanner", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       expect(c.scanner.constructor.name).toBe("Scanner");
     });
 
     test("should create a Keypad", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       expect(c.keypad.constructor.name).toBe("Keypad");
     });
   });
 
   describe("connect", () => {
     test("should connect a client", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.connect({mobile: true, cards: [1, 2, 3]});
       expect(c.connected).toBe(true);
       expect(c.mobile).toBe(true);
@@ -54,7 +54,7 @@ describe("Client", () => {
 
   describe("disconnect", () => {
     test("should disconnect a client", () => {
-      const c = new Client({connected: true});
+      const c = new ThoriumClient({connected: true});
       expect(c.connected).toBe(true);
       c.disconnect();
       expect(c.connected).toBe(false);
@@ -63,13 +63,13 @@ describe("Client", () => {
 
   describe("setFlight", () => {
     test("should set the flight", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.setFlight("nonExistingFlightId");
       expect(c.flightId).toBe("nonExistingFlightId");
     });
 
     test("should reset station and hypercard", () => {
-      const c = new Client({
+      const c = new ThoriumClient({
         station: "fakeStation",
         hypercard: "fakeHypercard",
       });
@@ -85,13 +85,13 @@ describe("Client", () => {
 
   describe("setSimulator", () => {
     test("should set the simulatorId", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.setSimulator("test_simulator_id");
       expect(c.simulatorId).toBe("test_simulator_id");
     });
 
     test("should reset station", () => {
-      const c = new Client({station: "test_station"});
+      const c = new ThoriumClient({station: "test_station"});
       c.setSimulator("test_simulator_id");
       expect(c.station).toBeNull();
     });
@@ -99,7 +99,7 @@ describe("Client", () => {
 
   describe("setStation", () => {
     test("should set the station", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.setStation("test_station");
       expect(c.station).toBe("test_station");
     });
@@ -107,7 +107,7 @@ describe("Client", () => {
 
   describe("login/logout", () => {
     test("should set loginName and loginState", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
 
       c.login("kermit");
       expect(c.loginName).toBe("kermit");
@@ -121,7 +121,7 @@ describe("Client", () => {
 
   describe("setTraining", () => {
     test("should set the training", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       expect(c.training).toBe(false);
       c.setTraining(true);
       expect(c.training).toBe(true);
@@ -130,7 +130,7 @@ describe("Client", () => {
 
   describe("setHypercard", () => {
     test("should set the hypercard", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.setHypercard("test_card");
       expect(c.hypercard).toBe("test_card");
       c.setHypercard();
@@ -140,7 +140,7 @@ describe("Client", () => {
 
   describe("setMovie", () => {
     test("should set a movie", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.setMovie("not_a_real_movie");
       expect(c.movie).toBe("not_a_real_movie");
       expect(c.offlineState).toBe("movie");
@@ -149,7 +149,7 @@ describe("Client", () => {
 
   describe("setOfflineState", () => {
     test("should set the offline state and clear the movie", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.setMovie("not_a_real_movie");
       c.setOfflineState("blackout");
       expect(c.movie).toBeNull();
@@ -171,7 +171,7 @@ describe("Client", () => {
 
   describe("setOverlay", () => {
     test("should set the overlay", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       expect(c.overlay).toBe(false);
       c.setOverlay(true);
       expect(c.overlay).toBe(true);
@@ -205,7 +205,7 @@ expect.extend({
 describe("Keypad", () => {
   describe("constructor", () => {
     test("should set default parameters", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       const k = c.keypad;
       expect(k.id).toBe(c.id);
       expect(k.code).toBeKeypadCode(4);
@@ -218,19 +218,19 @@ describe("Keypad", () => {
     });
 
     test("should set random code of length codeLength", () => {
-      const c = new Client({keypad: {codeLength: 6}});
+      const c = new ThoriumClient({keypad: {codeLength: 6}});
       expect(c.keypad.codeLength).toBe(6);
       expect(c.keypad.code).toBeKeypadCode(6);
     });
 
     test("should set codeLength to match code.length", () => {
-      const c = new Client({keypad: {code: [1, 2], codeLength: 7}});
+      const c = new ThoriumClient({keypad: {code: [1, 2], codeLength: 7}});
       expect(c.keypad.codeLength).toBe(2);
       expect(c.keypad.code).toBeKeypadCode(2);
     });
 
     test("should restrict code length to 8 digits", () => {
-      const c = new Client({keypad: {codeLength: 24}});
+      const c = new ThoriumClient({keypad: {codeLength: 24}});
       expect(c.keypad.codeLength).toBe(8);
       expect(c.keypad.code).toBeKeypadCode(8);
 
@@ -241,20 +241,20 @@ describe("Keypad", () => {
 
   describe("setCode", () => {
     test("should set a specified code", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.keypad.setCode([1, 2, 3, 4, 5, 6]);
       expect(c.keypad.code).toEqual([1, 2, 3, 4, 5, 6]);
     });
 
     test("should generate a random code", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.keypad.setCodeLength(7);
       c.keypad.setCode();
       expect(c.keypad.code).toBeKeypadCode(7);
     });
 
     test("should set codeLength", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.keypad.setCode([1, 2, 3, 4, 5, 6]);
       expect(c.keypad.codeLength).toBe(6);
     });
@@ -262,7 +262,7 @@ describe("Keypad", () => {
 
   describe("setEnteredCode", () => {
     test("should enter a code, increment attempts, and lock keypad if exceeds maximum attempts", () => {
-      const c = new Client({keypad: {allowedAttempts: 2}});
+      const c = new ThoriumClient({keypad: {allowedAttempts: 2}});
       c.keypad.setEnteredCode([1, 2, 3, 4]);
       expect(c.keypad.enteredCode).toEqual([1, 2, 3, 4]);
       expect(c.keypad.locked).toBe(false);
@@ -275,7 +275,7 @@ describe("Keypad", () => {
 
   describe("reset", () => {
     test("should reset the keypad", () => {
-      const c = new Client({keypad: {allowedAttempts: 2}});
+      const c = new ThoriumClient({keypad: {allowedAttempts: 2}});
       c.keypad.setEnteredCode([1, 2, 3, 4]);
       c.keypad.setEnteredCode([1, 2, 3, 4]);
       expect(c.keypad.enteredCode).toEqual([1, 2, 3, 4]);
@@ -290,7 +290,7 @@ describe("Keypad", () => {
 
   describe("setCodeLength", () => {
     test("should set the code length between 1 and 8 digits", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.keypad.setCodeLength(5);
       expect(c.keypad.codeLength).toBe(5);
     });
@@ -300,7 +300,7 @@ describe("Keypad", () => {
 describe("Scanner", () => {
   describe("constructor", () => {
     test("should set default params", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       expect(c.scanner.id).toBe(c.id);
       expect(c.scanner.scanRequest).toBe("");
       expect(c.scanner.scanResults).toBe("");
@@ -310,7 +310,7 @@ describe("Scanner", () => {
 
   describe("scan", () => {
     test("should scan", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.scanner.scan("asteroid field");
       expect(c.scanner.scanRequest).toBe("asteroid field");
       expect(c.scanner.scanning).toBe(true);
@@ -319,7 +319,7 @@ describe("Scanner", () => {
 
   describe("cancelScan", () => {
     test("should cancel the scan", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.scanner.scan("asteroid field");
       c.scanner.cancelScan();
       expect(c.scanner.scanning).toBe(false);
@@ -328,7 +328,7 @@ describe("Scanner", () => {
 
   describe("scanResponse", () => {
     test("should set the scan response", () => {
-      const c = new Client();
+      const c = new ThoriumClient();
       c.scanner.scan("asteroid field");
       c.scanner.scanResponse("there are asteroids here");
       expect(c.scanner.scanning).toBe(false);

@@ -1,12 +1,19 @@
-import uuid from "uuid";
 import App from "../app";
 import {randomFromList} from "./generic/damageReports/constants";
 import systemNames from "./universe/systemNames";
+import {BaseClass} from "~classes/baseClass";
 
-export class Record {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "Record";
+export class Record extends BaseClass<Record> {
+  contents: string;
+  original: string;
+  timestamp: string;
+  category: string;
+  modified: boolean;
+  snippetId: string;
+  speed: string;
+
+  constructor(params: Partial<Record>) {
+    super(params, "Record");
     this.contents = params.contents || "";
     this.original = params.original || params.contents || "";
     this.timestamp = params.timestamp || new Date().toISOString();
@@ -16,7 +23,8 @@ export class Record {
     // belong to the simulator
     this.snippetId = params.snippetId || null;
   }
-  update({contents, timestamp, category, modified}) {
+
+  update({contents, timestamp, category, modified}): void {
     if (contents) this.contents = contents;
     if (timestamp) this.timestamp = timestamp;
     if (category) this.category = category;
@@ -26,10 +34,15 @@ export class Record {
 
 const deniedSystemClasses = ["StealthField", "Transwarp", "Thx", "Crm"];
 
-export class RecordSnippet {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "RecordSnippet";
+export class RecordSnippet extends BaseClass<RecordSnippet> {
+  sensorContactId: string;
+  launched: boolean;
+  records: string[];
+  visible: boolean;
+  templateRecords: Record[];
+
+  constructor(params: Partial<RecordSnippet>) {
+    super(params, "RecordSnippet");
     this.simulatorId = params.simulatorId || null;
     this.sensorContactId = params.sensorContactId || null;
     this.name = params.name || "Snippet";
@@ -39,21 +52,21 @@ export class RecordSnippet {
     this.visible = params.visible ?? true;
     this.templateRecords = params.templateRecords || [];
   }
-  rename(name) {
+  rename(name: string): void {
     this.name = name;
   }
-  addRecords(ids) {
+  addRecords(ids: string[]) {
     this.records = this.records
-      .concat(ids)
+      .concat(ids as any)
       .filter((r, i, a) => a.indexOf(r) === i);
   }
-  removeRecord(id) {
+  removeRecord(id: string): void {
     this.records = this.records.filter(r => r !== id);
   }
-  addTemplate(record) {
+  addTemplate(record: Record) {
     this.templateRecords.push(record);
   }
-  updateTemplate(id, data) {
+  updateTemplate(id: string, data: Record) {
     const record = this.templateRecords.find(r => r.id === id);
 
     if (record) record.update(data);
@@ -61,7 +74,13 @@ export class RecordSnippet {
   removeTemplate(id) {
     this.templateRecords = this.templateRecords.filter(r => r.id !== id);
   }
-  static generateRandomRecord({type, timestamp, speed, snippetId}) {
+
+  static generateRandomRecord({
+    type,
+    timestamp,
+    speed,
+    snippetId,
+  }: Partial<Record>): Record {
     // Probe Launched
     if (type === "probeLaunched") {
       return new Record({
@@ -102,7 +121,7 @@ export class RecordSnippet {
     // Alert Status Change
     if (type === "alertStatusChange") {
       return new Record({
-        contents: Math.round(Math.random() * 4 + 1),
+        contents: Math.round(Math.random() * 4 + 1).toString(),
         timestamp,
         category: "Alert Condition",
         snippetId,
@@ -296,7 +315,7 @@ export class RecordSnippet {
           snippetId: Snippet.id,
         });
         simulator.records.push(record);
-        Snippet.addRecords(record.id);
+        Snippet.addRecords([record.id]);
       }
     }
     return Snippet;

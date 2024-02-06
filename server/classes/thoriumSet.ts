@@ -1,13 +1,12 @@
 // A set is a collection of clients
-import uuid from "uuid";
+import {BaseClass} from "~classes/baseClass";
 
-export default class Set {
-  id: string;
-  class: "Set" = "Set";
+export default class ThoriumSet extends BaseClass<ThoriumSet> {
   name: string;
   clients: SetClient[];
-  constructor(params: Partial<Set> = {}) {
-    this.id = params.id || uuid.v4();
+
+  constructor(params: Partial<ThoriumSet> = {}) {
+    super(params, "Set");
     this.name = params.name || "Default Set";
     this.clients = params.clients || [];
   }
@@ -26,17 +25,16 @@ export default class Set {
 }
 
 // The default configuration for a set
-export class SetClient {
-  id: string;
-  class: "SetClient" = "SetClient";
+export class SetClient extends BaseClass<SetClient> {
   clientId: string | null;
   simulatorId: string | null;
   stationSet: string | null;
   station: string | null;
   secondary: boolean;
   soundPlayer: boolean;
+
   constructor(params: Partial<SetClient> = {}) {
-    this.id = params.id || uuid.v4();
+    super(params, "SetClient");
     this.clientId = params.clientId || null;
     this.simulatorId = params.simulatorId || null;
     this.stationSet = params.stationSet || null;

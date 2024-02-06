@@ -6,10 +6,10 @@ export default class HullPlating extends System {
   engaged: boolean;
   mode: string;
   pulse?: boolean;
-  constructor(params: any = {}) {
-    super(params);
-    this.class = "HullPlating";
-    this.type = "HullPlating";
+
+  constructor(params: Partial<HullPlating> = {}) {
+    super(params, "HullPlating");
+    this.type = this.class;
     this.wing = params.wing || "left";
     this.name = params.name || "Hull Plating";
     this.displayName = params.displayName || "Hull Plating";

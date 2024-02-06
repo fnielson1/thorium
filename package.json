@@ -22,6 +22,7 @@
     "de"
   ],
   "scripts": {
+    "parseSnapshot": "npx ts-node server/migrationUtils/createFilesFromSnapshot.ts",
     "start": "npm-run-all --parallel start:client start:server",
     "postinstall": "patch-package",
     "start:client": "react-app-rewired --openssl-legacy-provider start",

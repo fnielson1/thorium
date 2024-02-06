@@ -1,11 +1,14 @@
 import App from "../app";
-import uuid from "uuid";
 import Task from "./task";
 import taskDefinitions from "../tasks";
 import {capitalCase} from "change-case";
 import {randomFromList} from "./generic/damageReports/constants";
+import {BaseClass} from "~classes/baseClass";
+import {Station} from "~classes/stationSet";
+import {ReportType} from "~classes/taskTemplate";
+import {Room} from "~classes";
 
-function fullType(type) {
+function fullType(type: string): string {
   if (type === "default" || type === "damage" || type === "repair")
     return "Damage";
   if (type === "rnd") return "Research & Development";
@@ -13,17 +16,21 @@ function fullType(type) {
   return capitalCase(type);
 }
 
-function colloquialType(type) {
+function colloquialType(type: string): string {
   if (type === "default" || type === "damage" || type === "repair")
     return "repair";
   if (type === "rnd") return "research and development";
   if (type === "engineering") return "engineering";
 }
 
-export default class TaskReport {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "TaskReport";
+export default class TaskReport extends BaseClass<TaskReport> {
+  systemId: string;
+  stepCount: number;
+  cleared: boolean;
+  tasks: Task[];
+
+  constructor(params: Partial<TaskReport>) {
+    super(params, "TaskReport");
     this.simulatorId = params.simulatorId || null;
     this.systemId = params.systemId || null;
     this.type = params.type || "default";
@@ -34,7 +41,7 @@ export default class TaskReport {
     // Tasks is a list of task IDs for tasks that are stored in App.tasks
     this.tasks = params.tasks
       ? params.tasks.map(t => new Task(t))
-      : TaskReport.generateReport(params);
+      : TaskReport.generateReport(params as TaskReport);
   }
   clear() {
     this.cleared = true;
@@ -44,16 +51,18 @@ export default class TaskReport {
     this.tasks.filter(t => !t.verified).forEach(t => t.verify());
     this.clear();
   }
-  verifyTask(stepId) {
+  verifyTask(stepId: string) {
     this.tasks.find(t => t.id === stepId).verify();
   }
-  requestVerify(stepId) {
+  requestVerify(stepId: string) {
     this.tasks.find(t => t.id === stepId).requestVerify();
   }
-  assignTask(stepId, station) {
+  assignTask(stepId: string, station: Station) {
     const task = this.tasks.find(t => t.id === stepId);
     const simulator = App.simulators.find(s => s.id === this.simulatorId);
-    const definition = taskDefinitions.find(t => t.name === task.definition);
+    const definition = taskDefinitions.find(
+      t => t.name === task.definition,
+    ) as any;
 
     let assignStation =
       station || randomFromList(definition.stations({simulator}) || []);
@@ -88,7 +97,9 @@ export default class TaskReport {
         ),
       }))
       // Filter out the templates that don't correspond with this report
-      .filter(t => t.reportTypes && t.reportTypes.indexOf(type) > -1)
+      .filter(
+        t => t.reportTypes && t.reportTypes.indexOf(type as ReportType) > -1,
+      )
 
       // Get the task definition, and filter out any that are
       // not currently active.
@@ -123,13 +134,13 @@ export default class TaskReport {
         values: {
           ...values,
           system: system && system.id,
-          room: randomFromList(rooms),
+          room: randomFromList<string | Room>(rooms),
         },
         macros,
       });
     }
 
-    let tasks = [];
+    let tasks: Task[] = [];
 
     // Here, I'm writing out the current damage report generation process
     // so I can more or less replicate it using tasks.
@@ -161,7 +172,9 @@ export default class TaskReport {
     }
 
     // Add in any required damage steps at the start
-    tasks = tasks.concat(requiredTemplates.filter(s => !s.end).map(createTask));
+    tasks = tasks.concat(
+      requiredTemplates.filter(s => (!s as any).end).map(createTask),
+    );
     // Add in the optional steps
 
     // If there is a damage team task, add it first,
@@ -190,7 +203,7 @@ export default class TaskReport {
             const definition = randomFromList(Object.keys(definitionTemplates));
             const template = randomFromList(definitionTemplates[definition]);
             delete definitionTemplates[definition];
-            return template;
+            return template as any;
           })
           .reduce((prev, next) => prev.concat(next), [])
           .map(createTask),
@@ -199,7 +212,9 @@ export default class TaskReport {
 
     // Add any required damage steps that specifically are assigned
     // to the end of the report.
-    tasks = tasks.concat(requiredTemplates.filter(s => s.end).map(createTask));
+    tasks = tasks.concat(
+      requiredTemplates.filter(s => (s as any).end).map(createTask),
+    );
 
     // Clear out any damage teams that don't have 'wait' tasks associated.
     tasks = tasks.concat(

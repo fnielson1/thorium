@@ -1,8 +1,9 @@
-import uuid from "uuid";
 import App from "../app";
+import {Simulator} from "~classes/index";
+import {BaseClass} from "~classes/baseClass";
 
 const standardOptions = ["Stations", "Library Entry Slugs"];
-function generateOptions(component, simulator) {
+function generateOptions(component: any, simulator?: Simulator) {
   const options = component.connectedComponents.find(
     c => c.component && c.component.name === "Options",
   );
@@ -17,7 +18,11 @@ function generateOptions(component, simulator) {
       .map(l => l.slug);
   return [];
 }
-function generateHelpText(component, length = "short", simulator) {
+function generateHelpText(
+  component: any,
+  length = "short",
+  simulator?: Simulator,
+) {
   const description = component.connectedComponents.find(
     c => c.component && c.component.name === "Description",
   );
@@ -35,7 +40,11 @@ function generateHelpText(component, length = "short", simulator) {
   return optionsText;
 }
 
-function generateTriggerActions(component, simulator = {}, args) {
+function generateTriggerActions(
+  component,
+  simulator: Partial<Simulator> = {},
+  args,
+) {
   if (!component.connectedComponents) return [];
   return component.connectedComponents
     .filter(c => c.inputNode === "trigger")
@@ -60,14 +69,18 @@ function generateTriggerActions(component, simulator = {}, args) {
     }));
 }
 
-export default class CommandLine {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "CommandLine";
+export default class CommandLine extends BaseClass<CommandLine> {
+  templateId: string;
+  components: any[];
+  connections: any[];
+  values: any[];
+  config: any[];
+  connectionList: any[];
 
+  constructor(params: Partial<CommandLine>) {
+    super(params, "CommandLine");
     this.simulatorId = params.simulatorId || null;
     this.templateId = params.templateId || null;
-
     this.name = params.name || "Command Line";
 
     // Have a place to store all of the diagram stuff.
@@ -76,7 +89,7 @@ export default class CommandLine {
     this.values = params.values || [];
     this.config = params.config || [];
   }
-  rename(name) {
+  rename(name: string) {
     this.name = name;
   }
   update({components, connections, values, config}) {

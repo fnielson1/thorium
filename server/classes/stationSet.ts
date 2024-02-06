@@ -1,14 +1,13 @@
-import uuid from "uuid";
 import App from "../app";
 import {pascalCase} from "change-case";
+import {BaseClass} from "~classes/baseClass";
 
-export class StationSet {
-  id: string;
-  class: string;
+export class StationSet extends BaseClass<StationSet> {
   name: string;
   simulatorId: string;
   crewCount: number;
   stations: Station[];
+
   constructor({
     id,
     name,
@@ -16,10 +15,9 @@ export class StationSet {
     crewCount,
     stations = [],
   }: Partial<StationSet>) {
-    this.class = "StationSet";
-    this.id = id || uuid.v4();
+    super(null, "StationSet", id);
     this.simulatorId = simulatorId || null;
-    this.name = name || "StationSet";
+    this.name = name || this.class;
     this.crewCount = crewCount || 14;
     this.stations = [];
     stations.forEach(station => {
@@ -102,9 +100,7 @@ export class StationSet {
   }
 }
 
-export class Station {
-  name: string;
-  class: string;
+export class Station extends BaseClass<Station> {
   cards: Card[];
   login: boolean;
   executive: boolean;
@@ -115,20 +111,22 @@ export class Station {
   training: string;
   ambiance: string;
   layout: string;
-  constructor({
-    name,
-    cards = [],
-    login = false,
-    executive = false,
-    messageGroups = [],
-    widgets = [],
-    description,
-    tags,
-    training,
-    ambiance,
-    layout,
-  }: Partial<Station>) {
-    this.class = "Station";
+
+  constructor(params: Partial<Station>) {
+    super(params, "Station");
+    const {
+      name,
+      cards = [],
+      login = false,
+      executive = false,
+      messageGroups = [],
+      widgets = [],
+      description,
+      tags,
+      training,
+      ambiance,
+      layout,
+    } = params;
     this.name = name || "Station";
     this.description = description || "";
     this.tags = tags || [];

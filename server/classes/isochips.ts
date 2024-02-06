@@ -1,4 +1,5 @@
 import uuid from "uuid";
+import {BaseClass} from "~classes/baseClass";
 
 const labels = {
   "1": "LT-7211",
@@ -29,10 +30,16 @@ const labels = {
 
 const diagnosticChip = 31; // 11111
 
-export default class Isochip {
-  constructor(params = {}) {
-    this.id = params.id || uuid.v4();
-    this.class = "Isochip";
+export default class Isochip extends BaseClass<Isochip> {
+  system: string;
+  simulatorId: string;
+  slot: number;
+  requiredChip: number;
+  chip: number;
+  label: string;
+
+  constructor(params: Partial<Isochip> = {}) {
+    super(params, "Isochip");
     this.system = params.system || null;
     this.simulatorId = params.simulatorId || null;
     // Slot and chip numbers are based on the decimal

@@ -2,6 +2,7 @@ import reportReplace from "../helpers/reportReplacer";
 import App from "../app";
 import {randomFromList} from "../classes/generic/damageReports/constants";
 import {getLocation} from "./helpers";
+import {Task} from "~classes";
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -82,8 +83,9 @@ export default [
     instructions({
       simulator,
       requiredValues: {preamble, inventory, room: roomId, system},
-      task = {},
+      taskArg = {},
     }) {
+      const task = taskArg as Partial<Task>;
       const station =
         simulator &&
         simulator.stations.find(s =>

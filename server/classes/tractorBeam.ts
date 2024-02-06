@@ -1,16 +1,16 @@
 import {System} from "./generic";
-import uuid from "uuid";
+import {BaseClass} from "~classes/baseClass";
 
-class Beam {
-  id: string;
+class Beam extends BaseClass<Beam> {
   state: boolean;
   target: boolean;
   targetLabel: string;
   strength: number;
   stress: number;
   scanning: boolean;
+
   constructor(params: Partial<Beam> = {}) {
-    this.id = params.id || uuid.v4();
+    super(params);
     this.state = params.state || false;
     this.target = params.target || false;
     this.targetLabel = params.targetLabel || "";
@@ -38,14 +38,11 @@ class Beam {
   }
 }
 export default class TractorBeam extends System {
-  class: "TractorBeam" = "TractorBeam";
-  type: "TractorBeam" = "TractorBeam";
   beams: Beam[];
 
   constructor(params: Partial<TractorBeam & Beam> = {}) {
-    super(params);
-    this.class = "TractorBeam";
-    this.type = "TractorBeam";
+    super(params, "TractorBeam");
+    this.type = this.class;
     this.wing = params.wing || "right";
 
     this.name = params.name || "Tractor Beam";

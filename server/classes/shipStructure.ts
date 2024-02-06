@@ -1,9 +1,19 @@
 import uuid from "uuid";
 import Environment from "./environment";
-export class Deck {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "Deck";
+import {BaseClass, RecordKey} from "~classes/baseClass";
+
+export class Deck extends BaseClass<Deck> {
+  simulatorId: string;
+  number: number;
+  svgPath: string;
+  doors: boolean;
+  evac: boolean;
+  actualEvac: boolean;
+  hallway: string;
+  environment: Environment;
+
+  constructor(params: Partial<Deck>) {
+    super(params, "Deck");
     this.simulatorId = params.simulatorId || null;
     this.number = params.number || 1;
     this.svgPath = params.svgPath || "";
@@ -35,11 +45,17 @@ export class Deck {
   }
 }
 
-export class Room {
-  constructor(params) {
-    if (!params.deckId) return false;
-    this.class = "Room";
-    this.id = params.id || uuid.v4();
+export class Room extends BaseClass<Room> {
+  deckId: string;
+  gas: boolean;
+  svgPath: string;
+  metadata: Record<RecordKey, any>;
+  roles: string[];
+
+  constructor(params: Partial<Room>) {
+    super(params, "Room");
+    if (!params.deckId) return null;
+
     this.simulatorId = params.simulatorId || null;
     this.deckId = params.deckId;
     this.name = params.name || "Vic's Lounge";
@@ -68,10 +84,15 @@ export class Room {
   }
 }
 
-export class InventoryItem {
-  constructor(params) {
-    this.class = "InventoryItem";
-    this.id = params.id || uuid.v4();
+export class InventoryItem extends BaseClass<InventoryItem> {
+  simulatorId: string;
+  name: string;
+  roomCount: Record<RecordKey, any>;
+  crewCount: Record<RecordKey, any>;
+  metadata: Record<RecordKey, any>;
+
+  constructor(params: Partial<InventoryItem>) {
+    super(params, "InventoryItem");
     this.simulatorId = params.simulatorId || null;
     this.name = params.name || "Generic Cargo";
     this.roomCount = {};
@@ -92,14 +113,19 @@ export class InventoryItem {
     }
     this.metadata = params.metadata || {};
   }
-  move(fromRoom, toRoom, count, toSimulator) {
+  move(
+    fromRoom: number,
+    toRoom: number,
+    count: number,
+    toSimulator: boolean,
+  ): void {
     if (this.roomCount[fromRoom] >= count) {
       if (!this.roomCount[toRoom]) this.roomCount[toRoom] = 0;
       this.roomCount[fromRoom] -= count;
       this.roomCount[toRoom] += count;
     }
   }
-  moveToCrew(fromRoom, toCrew, count) {
+  moveToCrew(fromRoom: number, toCrew: number, count: number): void {
     if (!fromRoom) {
       this.crewCount[toCrew] = count;
     }
@@ -109,17 +135,17 @@ export class InventoryItem {
       this.crewCount[toCrew] += count;
     }
   }
-  moveFromCrew(fromCrew, toRoom, count) {
+  moveFromCrew(fromCrew: number, toRoom: number, count: number): void {
     if (this.crewCount[fromCrew] >= count) {
       if (!this.roomCount[toRoom]) this.roomCount[toRoom] = 0;
       this.crewCount[fromCrew] -= count;
       this.roomCount[toRoom] += count;
     }
   }
-  updateCount(room, count) {
+  updateCount(room: number, count: number): void {
     this.roomCount[room] = Math.max(0, count);
   }
-  updateMetadata(metadata) {
+  updateMetadata(metadata: Record<RecordKey, any>): void {
     this.metadata = metadata;
   }
 }

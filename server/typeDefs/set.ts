@@ -1,7 +1,7 @@
 import App from "../app";
 import {gql, withFilter} from "apollo-server-express";
 import {pubsub} from "../helpers/subscriptionManager";
-import Set from "../classes/set";
+import ThoriumSet from "../classes/thoriumSet";
 // We define a schema that encompasses all of the types
 // necessary for the functionality in this file.
 const schema = gql`
@@ -67,7 +67,7 @@ const resolver = {
     // I'm not handling these as events
     // Seems a little overkill.
     createSet(rootValue, args, context) {
-      App.sets.push(new Set(args));
+      App.sets.push(new ThoriumSet(args));
       pubsub.publish("setsUpdate", App.sets);
     },
     removeSet(rootValue, {id}, context) {

@@ -1,4 +1,5 @@
 import uuid from "uuid";
+import {BaseClass} from "~classes/baseClass";
 
 // from ./taskFlow.ts
 function move(array, old_index, new_index) {
@@ -14,10 +15,14 @@ function move(array, old_index, new_index) {
   return array; // for testing purposes
 }
 
-class Action {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "Action";
+class Action extends BaseClass<Action> {
+  event: string;
+  args: string;
+  delay: number;
+  noCancelOnReset: boolean;
+
+  constructor(params: Partial<Action>) {
+    super(params, "Action");
     this.event = params.event || "";
     this.args = params.args || "{}";
     this.delay = params.delay || 0;
@@ -25,10 +30,11 @@ class Action {
   }
 }
 
-export default class Macro {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "Macro";
+export default class Macro extends BaseClass<Macro> {
+  actions: Action[];
+
+  constructor(params: Partial<Macro>) {
+    super(params, "Macro");
     this.name = params.name || "Default Macro";
     this.actions = [];
     params.actions &&
@@ -36,13 +42,13 @@ export default class Macro {
         this.actions.push(new Action(k));
       });
   }
-  rename(name) {
+  rename(name: string) {
     this.name = name;
   }
-  setActions(actions) {
+  setActions(actions: Action[]) {
     this.actions = actions;
   }
-  duplicateAction(actionId) {
+  duplicateAction(actionId: string): string {
     const action = this.actions.find(a => a.id === actionId);
     if (!action) return;
     const newAction = new Action({...action, id: undefined});
@@ -50,49 +56,53 @@ export default class Macro {
     return newAction.id;
   }
   // For reordering macro button actions
-  reorderAction(oldIndex, newIndex) {
+  reorderAction(oldIndex: number, newIndex: number): void {
     this.actions = move(this.actions, oldIndex, newIndex);
   }
 }
 
 class MacroButton extends Macro {
-  constructor(params) {
+  color: string;
+  category: string;
+
+  constructor(params: Partial<MacroButton>) {
     super(params);
     this.color = params.color || "primary";
     this.category = params.category || "general";
   }
-  setColor(color) {
+  setColor(color: string) {
     this.color = color;
   }
-  setCategory(category) {
+  setCategory(category: string) {
     this.category = category;
   }
 }
 
-export class MacroButtonConfig {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "MacroButtonConfig";
+export class MacroButtonConfig extends BaseClass<MacroButtonConfig> {
+  buttons: MacroButton[];
+
+  constructor(params: Partial<MacroButtonConfig>) {
+    super(params, "MacroButtonConfig");
     this.name = params.name || "Macro Button";
     this.buttons = [];
     (params.buttons || []).forEach(b => this.buttons.push(new MacroButton(b)));
   }
-  rename(name) {
+  rename(name: string) {
     this.name = name;
   }
-  removeButton(id) {
+  removeButton(id: string) {
     this.buttons = this.buttons.filter(b => b.id !== id);
   }
-  addButton(name) {
+  addButton(name: string) {
     const button = new MacroButton({name});
     this.buttons.push(button);
     return button;
   }
-  getButton(id) {
+  getButton(id: string) {
     return this.buttons.find(b => b.id === id);
   }
   // For reordering macro buttons
-  reorderButton(oldIndex, newIndex) {
+  reorderButton(oldIndex: number, newIndex: number) {
     this.buttons = move(this.buttons, oldIndex, newIndex);
   }
 }

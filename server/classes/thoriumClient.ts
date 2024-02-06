@@ -1,9 +1,19 @@
 import uuid from "uuid";
 import App from "../app";
+import {BaseClass} from "~classes/baseClass";
 
-class Keypad {
-  constructor(params = {}, clientId, label) {
-    this.id = clientId;
+class Keypad extends BaseClass<Keypad> {
+  label: string;
+  enteredCode: number[];
+  giveHints: boolean;
+  allowedAttempts: number;
+  attempts: number;
+  locked: boolean;
+  codeLength: number;
+  code: number[];
+
+  constructor(params: Partial<Keypad> = {}, clientId: string, label: string) {
+    super(params, null, clientId);
     this.label = label;
     this.enteredCode = params.enteredCode || [];
     this.giveHints = params.giveHints || true;
@@ -33,7 +43,7 @@ class Keypad {
     }
     this.codeLength = this.code.length;
   }
-  setEnteredCode(code) {
+  setEnteredCode(code: number[]) {
     this.attempts += 1;
     this.enteredCode = code || [];
     if (this.attempts >= this.allowedAttempts && this.allowedAttempts !== 0) {
@@ -45,46 +55,70 @@ class Keypad {
     this.attempts = 0;
     this.locked = false;
   }
-  setHint(hint) {
+  setHint(hint: boolean) {
     this.giveHints = hint;
   }
-  setCodeLength(length) {
+  setCodeLength(length: number) {
     this.codeLength = Math.min(8, Math.max(1, length));
   }
-  setAllowedAttempts(a) {
+  setAllowedAttempts(a: number) {
     this.allowedAttempts = Math.max(0, a);
   }
-  setLocked(locked) {
+  setLocked(locked: boolean) {
     this.locked = locked;
   }
 }
 
-class Scanner {
-  constructor(params = {}, clientId, label) {
-    this.id = clientId;
+class Scanner extends BaseClass<Scanner> {
+  label: string;
+  scanRequest: string;
+  scanResults: string;
+  scanning: boolean;
+
+  constructor(params: Partial<Scanner> = {}, clientId: string, label: string) {
+    super(params, null, clientId);
     this.label = label;
     this.scanRequest = params.scanRequest || "";
     this.scanResults = params.scanResults || "";
     this.scanning = params.scanning || false;
   }
-  scan(request) {
+  scan(request: string) {
     this.scanRequest = request;
     this.scanning = true;
   }
   cancelScan() {
     this.scanning = false;
   }
-  scanResponse(response) {
+  scanResponse(response: string) {
     this.scanning = false;
     this.scanResults = response;
   }
 }
 
-export default class Client {
-  constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+export default class ThoriumClient extends BaseClass<ThoriumClient> {
+  clientLabel: string;
+  flightId: string;
+  station: string;
+  loginName: string;
+  loginState: string;
+  isSpaceEdventures: boolean;
+  connected: boolean;
+  ping: string;
+  offlineState: string;
+  movie: string;
+  hypercard: string;
+  training: boolean;
+  overlay: boolean;
+  soundPlayer: boolean;
+  caches: string[];
+  mobile: boolean;
+  cards: string[];
+  keypad: Keypad;
+  scanner: Scanner;
+
+  constructor(params: Partial<ThoriumClient> = {}) {
+    super(params, "Client");
     this.clientLabel = params.label || "";
-    this.class = "Client";
     this.flightId = params.flightId || null;
     this.simulatorId = params.simulatorId || null;
     this.station = params.station || null;

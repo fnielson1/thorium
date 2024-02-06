@@ -1,5 +1,5 @@
 import App from "../app";
-import Client from "../classes/client";
+import ThoriumClient from "../classes/thoriumClient";
 import Sound from "../classes/sound";
 import Viewscreen from "../classes/viewscreen";
 import {pubsub} from "../helpers/subscriptionManager";
@@ -48,7 +48,7 @@ App.on("clientConnect", ({client, label, mobile, cards}) => {
     clientObj.connect({mobile, label, cards});
   } else {
     // Add it to the server
-    const newClient = new Client({
+    const newClient = new ThoriumClient({
       id: client,
       connected: true,
       label,

@@ -4,6 +4,7 @@ import taskDefinitions from "../tasks";
 import {randomFromList} from "./generic/damageReports/constants";
 import Simulator from "./simulator";
 import {Station} from "./stationSet";
+import {BaseClass} from "~classes/baseClass";
 
 export type ValueDef = {
   [key: string]: {
@@ -61,11 +62,8 @@ export class Macro {
     this.noCancelOnReset = params.noCancelOnReset || false;
   }
 }
-export default class Task {
-  id: string;
-  class: "Task" = "Task";
+export default class Task extends BaseClass<Task> {
   definition: string;
-  simulatorId: string;
   station: string;
   stationTags: string[];
   taskTemplate: string;
@@ -82,12 +80,11 @@ export default class Task {
   macros: Macro[];
   preMacros: Macro[];
   assigned: boolean | string;
+
   constructor(params: Partial<Task> = {}) {
+    super(params, "Task");
     // The check to see if the task is relevant was already handled
     // before this task was instantiated
-    this.id = params.id || uuid.v4();
-    this.class = "Task";
-
     // The static object which defines the values and
     // methods for the task
     this.definition = params.definition || "Generic";
@@ -179,7 +176,7 @@ export default class Task {
     // Task Report Assignment
     this.assigned = params.assigned || false;
   }
-  verify(dismiss) {
+  verify(dismiss?: boolean) {
     if (this.verified) return;
     this.verified = true;
     if (dismiss) this.dismissed = true;

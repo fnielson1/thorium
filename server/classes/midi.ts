@@ -1,9 +1,16 @@
-// A set is a collection of clients
-import uuid from "uuid";
+import {BaseClass} from "~classes/baseClass";
 
-export class MidiControl {
-  constructor(params = {}) {
-    this.id = params.id || uuid.v4();
+export class MidiControl extends BaseClass<MidiControl> {
+  channel: string;
+  messageType: string;
+  key: string;
+  controllerNumber: string;
+  channelModeMessage: string;
+  actionMode: string;
+  config: any;
+
+  constructor(params: Partial<MidiControl> = {}) {
+    super(params);
     this.channel = params.channel ?? null;
     this.messageType = params.messageType ?? null;
     this.key = params.key ?? null;
@@ -12,22 +19,26 @@ export class MidiControl {
     this.actionMode = params.actionMode || "macro";
     this.config = params.config || {};
   }
-  update({actionMode, config}) {
+
+  update({actionMode, config}: Partial<MidiControl>) {
     this.actionMode = actionMode;
     this.config = config;
   }
 }
-export class MidiSet {
-  constructor(params = {}) {
-    this.id = params.id || uuid.v4();
-    this.class = "MidiSet";
+
+export class MidiSet extends BaseClass<MidiSet> {
+  deviceName: string;
+  controls: MidiControl[];
+
+  constructor(params: Partial<MidiSet> = {}) {
+    super(params, "MidiSet");
     this.name = params.name || "Default Midi Set";
     this.deviceName = params.deviceName || "X-TOUCH MINI";
     this.controls = [];
     params.controls &&
       params.controls.forEach(c => this.controls.push(new MidiControl(c)));
   }
-  rename(name) {
+  rename(name: string) {
     this.name = name;
   }
   setControl({id, ...control}) {

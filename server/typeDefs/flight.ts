@@ -119,7 +119,7 @@ export function addAspects(template, sim: Classes.Simulator, data = App) {
         // Override the system ID
         newAspect.id = uuid.v4();
         if (isochip) {
-          isochip.id = uuid.v4();
+          (isochip as any).id = uuid.v4();
           isochip.system = newAspect.id;
           isochip.simulatorId = sim.id;
           data.isochips.push(new Classes.Isochip(isochip));

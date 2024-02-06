@@ -37,8 +37,8 @@ class Events extends EventEmitter {
   flights: ClassesImport.Flight[] = [];
   missions: ClassesImport.Mission[] = [];
   systems: any[] = [];
-  clients: ClassesImport.Client[] = [];
-  sets: ClassesImport.Set[] = [];
+  clients: ClassesImport.ThoriumClient[] = [];
+  sets: ClassesImport.ThoriumSet[] = [];
   decks: ClassesImport.Deck[] = [];
   rooms: ClassesImport.Room[] = [];
   crew: ClassesImport.Crew[] = [];
@@ -49,7 +49,7 @@ class Events extends EventEmitter {
   coreLayouts: ClassesImport.CoreLayout[] = [];
   coreFeed: ClassesImport.CoreFeed[] = [];
   viewscreens: ClassesImport.Viewscreen[] = [];
-  messages: ClassesImport.Message[] = [];
+  messages: ClassesImport.ThoriumMessage[] = [];
   tacticalMaps: ClassesImport.TacticalMap[] = [];
   officerLogs: ClassesImport.OfficerLog[] = [];
   exocomps: ClassesImport.Exocomp[] = [];

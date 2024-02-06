@@ -1,5 +1,4 @@
 import {camelCase} from "change-case";
-import uuid from "uuid";
 import {
   Appearance,
   Behavior,
@@ -18,13 +17,13 @@ import {
 import {componentRegistry} from "./component";
 import {immerable} from "immer";
 import {Physical} from "./components/physical";
+import {BaseClass} from "~classes/baseClass";
 
 // An entity is an object that exists within the
 // sandbox space. It's properties will correspond
 // to the components that are assigned to it
-export class Entity {
+export class Entity extends BaseClass<Entity> {
   [immerable] = true;
-  id?: string;
   templateId?: string;
   flightId: string;
   interval?: number;
@@ -46,14 +45,14 @@ export class Entity {
 
   static class = "Entity";
   class = "Entity";
-  constructor({
-    id = uuid.v4(),
-    templateId = id,
-    flightId,
-    interval = 1,
-    ...components
-  }: Partial<Entity>) {
-    this.id = id;
+  constructor(params: Partial<Entity>) {
+    super(params);
+    const {
+      templateId = this.id,
+      flightId,
+      interval = 1,
+      ...components
+    } = params;
     this.flightId = flightId || null;
     this.templateId = templateId;
     this.interval = interval;

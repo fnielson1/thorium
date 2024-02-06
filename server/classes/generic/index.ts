@@ -10,6 +10,7 @@ import processReport from "./processReport";
 import DamageStep from "./damageStep";
 import DamageTask from "./damageTask";
 import {Station, Card} from "../stationSet";
+import {BaseClass} from "~classes/baseClass";
 
 const damageStepFunctions: {[key: string]: any} = {...damageReportFunctions};
 
@@ -94,9 +95,7 @@ interface Power {
   powerLevels: number[];
   defaultLevel: number;
 }
-export class System {
-  id: string;
-  class: string;
+export class System extends BaseClass<System> {
   type: string;
   simulatorId: string;
   name: string | null;
@@ -115,9 +114,9 @@ export class System {
   wing: "left" | "right";
   stealthCompromised: boolean;
   [key: string]: any;
-  constructor(params: any = {}) {
-    this.id = params.id || uuid.v4();
-    this.class = "System";
+
+  constructor(params: Partial<System> = {}, className?: string, id?: string) {
+    super(params, "System", id);
     this.type = "System";
     this.simulatorId = params.simulatorId || null;
     this.name = params.name || null;

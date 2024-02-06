@@ -1,20 +1,19 @@
-import uuid from "uuid";
 import taskDefinitions from "../tasks";
 import App from "../app";
+import {BaseClass} from "~classes/baseClass";
 
-type ReportTypes = ("default" | "rnd" | "engineering")[];
-export default class TaskTemplate {
-  id: string;
-  class: "TaskTemplate" = "TaskTemplate";
-  name: string;
+export type ReportType = "default" | "rnd" | "engineering";
+type ReportTypes = ReportType[];
+
+export default class TaskTemplate extends BaseClass<TaskTemplate> {
   values: {[key: string]: any};
   definition: string;
   reportTypes: ReportTypes;
   macros: any[];
   preMacros: any[];
+
   constructor(params: Partial<TaskTemplate> = {}) {
-    this.id = params.id || uuid.v4();
-    this.class = "TaskTemplate";
+    super(params, "TaskTemplate");
     this.name = params.name || "Task Template";
     this.values = params.values || {};
     this.definition = params.definition || "Generic";

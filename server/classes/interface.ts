@@ -1,10 +1,15 @@
-import uuid from "uuid";
+import {BaseClass} from "~classes/baseClass";
 
-export default class Interface {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "Interface";
+export default class Interface extends BaseClass<Interface> {
+  templateId: string;
+  deviceType: string;
+  components: any[];
+  connections: any[];
+  values: any[];
+  config: any[];
 
+  constructor(params: Partial<Interface>) {
+    super(params, "Interface");
     this.simulatorId = params.simulatorId || null;
     this.templateId = params.templateId || null;
 
@@ -19,7 +24,7 @@ export default class Interface {
     this.config = params.config || [];
   }
 
-  rename(name) {
+  rename(name: string): void {
     this.name = name;
   }
   update({deviceType, components, connections, values, config}) {
@@ -83,19 +88,22 @@ export default class Interface {
   }
 }
 
-export class InterfaceDevice {
-  constructor(params) {
-    this.id = params.id || uuid.v4();
-    this.class = "InterfaceDevice";
+export class InterfaceDevice extends BaseClass<InterfaceDevice> {
+  width: number;
+  height: number;
+
+  constructor(params: Partial<InterfaceDevice>) {
+    super(params, "InterfaceDevice");
     this.name = params.name || "Generic Interface Device";
     this.width = params.width || 320;
     this.height = params.height || 568;
   }
-  get isLandscape() {
+
+  get isLandscape(): boolean {
     return this.width > this.height;
   }
 
-  rename(name) {
+  rename(name: string) {
     this.name = name;
   }
   update({width, height}) {

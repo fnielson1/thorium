@@ -63,7 +63,7 @@ App.on(
     stationSet.renameStation(stationName, newStationName);
     // Update any sets as well.
     App.sets = App.sets.map(s => {
-      return new Classes.Set({
+      return new Classes.ThoriumSet({
         ...s,
         clients: s.clients.map(c => {
           if (c.stationSet === stationSet.id && c.station === stationName) {

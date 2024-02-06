@@ -1,12 +1,14 @@
-export default class DamageTask {
-  id?: string;
+import {BaseClass} from "~classes/baseClass";
+
+export default class DamageTask extends BaseClass<DamageTask> {
   required?: boolean;
   nextSteps?: any;
-  constructor(params: DamageTask = {}) {
+
+  constructor(params: Partial<DamageTask> = {}) {
+    super(params);
     // Since each object (simulator and station) can
     // only have one of a given task template assigned
     // as a damage step, the ID is the task template's ID
-    this.id = params.id;
     this.required = params.required || false;
     // An array of damage step (task template) IDs
     this.nextSteps = params.nextSteps || [];

@@ -1,6 +1,7 @@
 import Task from "./task";
 import uuid from "uuid";
 import App from "../app";
+import {BaseClass} from "~classes/baseClass";
 
 class TaskFlowStep {
   id: string;
@@ -70,16 +71,14 @@ function move<T>(array: T[], old_index: number, new_index: number) {
   array.splice(new_index, 0, array.splice(old_index, 1)[0]);
   return array; // for testing purposes
 }
-export class TaskFlow {
-  id: string;
-  class: "TaskFlow" = "TaskFlow";
-  simulatorId: string;
-  name: string;
+export class TaskFlow extends BaseClass<TaskFlow> {
+  static exportable = "taskFlows";
   category: string;
   currentStep: number;
   steps: Partial<TaskFlowStep>[];
+
   constructor(params: Partial<TaskFlow> = {}) {
-    this.id = params.id || uuid.v4();
+    super(params, "TaskFlow");
     this.simulatorId = params.simulatorId || null;
     this.name = params.name || "Task Flow";
     this.category = params.category || "";
@@ -88,7 +87,7 @@ export class TaskFlow {
       ? params.steps.map(s => new TaskFlowStep({...s}))
       : [];
   }
-  static exportable = "taskFlows";
+
   serialize({addData}) {
     // TODO: Properly serialize tasks to get their data.
     const {simulatorId, ...data} = this;
