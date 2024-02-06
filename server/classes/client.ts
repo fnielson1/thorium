@@ -95,7 +95,7 @@ class Scanner extends BaseClass<Scanner> {
   }
 }
 
-export default class ThoriumClient extends BaseClass<ThoriumClient> {
+export default class Client extends BaseClass<Client> {
   clientLabel: string;
   flightId: string;
   station: string;
@@ -116,7 +116,7 @@ export default class ThoriumClient extends BaseClass<ThoriumClient> {
   keypad: Keypad;
   scanner: Scanner;
 
-  constructor(params: Partial<ThoriumClient> = {}) {
+  constructor(params: Partial<Client> = {}) {
     super(params, "Client");
     this.clientLabel = params.label || "";
     this.flightId = params.flightId || null;

@@ -8,15 +8,15 @@ import {
   StationSet,
   System,
   Team,
-  ThoriumSet,
-  ThoriumClient,
+  Set,
+  Client,
   InventoryItem,
   Isochip,
   DockingPort,
   CoreLayout,
   CoreFeed,
   Viewscreen,
-  ThoriumMessage,
+  Message,
   TacticalMap,
   OfficerLog,
   Exocomp,
@@ -37,8 +37,8 @@ import {
   MacroButtonConfig,
   MidiSet,
   Entity,
-  ThoriumDMXSet,
-  Sound, ThoriumDMXConfig, ThoriumDMXDevice, HackingPreset,
+  DMXSet,
+  Sound, DMXConfig, DMXDevice, HackingPreset,
 } from "~classes";
 import Motu from "motu-control";
 import {IMigrations} from "~app";
@@ -51,8 +51,8 @@ interface ISnapshot {
   flights: Flight[];
   missions: Mission[];
   systems: System[];
-  clients: ThoriumClient[];
-  sets: ThoriumSet[];
+  clients: Client[];
+  sets: Set[];
   decks: Deck[];
   rooms: Room[];
   crew: Crew[];
@@ -63,7 +63,7 @@ interface ISnapshot {
   coreLayout: CoreLayout[];
   coreFeed: CoreFeed[];
   viewScreens: Viewscreen[];
-  messages: ThoriumMessage[];
+  messages: Message[];
   tacticalMaps: TacticalMap[];
   officerLogs: OfficerLog[];
   exocomps: Exocomp[];
@@ -87,9 +87,9 @@ interface ISnapshot {
   midiSets: MidiSet[];
   entities: Entity;
   motus: Motu[];
-  dmxSets: ThoriumDMXSet[];
-  dmxConfigs: ThoriumDMXConfig[];
-  dmxDevices: ThoriumDMXDevice[];
+  dmxSets: DMXSet[];
+  dmxConfigs: DMXConfig[];
+  dmxDevices: DMXDevice[];
   hackingPresets: HackingPreset[];
   autoUpdate: boolean;
   thoriumId: string;

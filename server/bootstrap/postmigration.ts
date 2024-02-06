@@ -1,8 +1,8 @@
 import App from "../app";
 import {InterfaceDevice} from "../classes/interface";
-import {Entity, ThoriumDMXDevice} from "../classes";
+import {Entity, DMXDevice} from "../classes";
 import * as components from "../classes/universe/components";
-import type {DMXAlertConfig} from "../classes/DMX/ThoriumDMXConfig";
+import type {DMXAlertConfig} from "../classes/DMX/DMXConfig";
 
 export default () => {
   return new Promise<void>(done => {
@@ -94,7 +94,7 @@ export default () => {
             "uv",
           ],
         },
-      ].map((d: ThoriumDMXDevice) => new ThoriumDMXDevice(d));
+      ].map((d: DMXDevice) => new DMXDevice(d));
     }
     if (!App.migrations.dmx) {
       App.migrations.dmx = true;

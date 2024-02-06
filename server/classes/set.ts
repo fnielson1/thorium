@@ -1,11 +1,11 @@
 // A set is a collection of clients
 import {BaseClass} from "~classes/baseClass";
 
-export default class ThoriumSet extends BaseClass<ThoriumSet> {
+export default class Set extends BaseClass<Set> {
   name: string;
   clients: SetClient[];
 
-  constructor(params: Partial<ThoriumSet> = {}) {
+  constructor(params: Partial<Set> = {}) {
     super(params, "Set");
     this.name = params.name || "Default Set";
     this.clients = params.clients || [];

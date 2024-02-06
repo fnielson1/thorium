@@ -13,10 +13,10 @@ export type DMXChannelProperty =
   | "focus"
   | "nothing";
 
-class ThoriumDMXDevice extends BaseClass<ThoriumDMXDevice> {
+class DMXDevice extends BaseClass<DMXDevice> {
   channels: DMXChannelProperty[];
 
-  constructor(params: Partial<ThoriumDMXDevice> = {}) {
+  constructor(params: Partial<DMXDevice> = {}) {
     super(params, "DMXDevice");
     this.name = params.name || "DMX Device";
     this.channels = params.channels || [];
@@ -29,4 +29,4 @@ class ThoriumDMXDevice extends BaseClass<ThoriumDMXDevice> {
   }
 }
 
-export default ThoriumDMXDevice;
+export default DMXDevice;

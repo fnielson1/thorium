@@ -1,4 +1,4 @@
-import {ChannelConfig} from "./ThoriumDMXFixture";
+import {ChannelConfig} from "./DMXFixture";
 import App from "../../app";
 import {BaseClass} from "~classes/baseClass";
 
@@ -13,13 +13,13 @@ type DMXConfigStuff = {
   darken?: DMXAlertConfig;
 };
 
-class ThoriumDMXConfig extends BaseClass<ThoriumDMXConfig> {
+class DMXConfig extends BaseClass<DMXConfig> {
   static exportable = "dmxConfigs";
   name: string;
   config: DMXConfigStuff;
   actionStrength: number;
 
-  constructor(params: Partial<ThoriumDMXConfig> = {}) {
+  constructor(params: Partial<DMXConfig> = {}) {
     super(params, "DMXConfig")
     this.name = params.name || "DMX Config";
     this.config = params.config || {};
@@ -30,8 +30,8 @@ class ThoriumDMXConfig extends BaseClass<ThoriumDMXConfig> {
     addData("dmxConfigs", this);
     return filename;
   }
-  static import(data: ThoriumDMXConfig) {
-    const config = new ThoriumDMXConfig({...data, id: null});
+  static import(data: DMXConfig) {
+    const config = new DMXConfig({...data, id: null});
     App.dmxConfigs.push(config);
   }
   setName(name: string) {
@@ -45,4 +45,4 @@ class ThoriumDMXConfig extends BaseClass<ThoriumDMXConfig> {
   }
 }
 
-export default ThoriumDMXConfig;
+export default DMXConfig;

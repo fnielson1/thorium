@@ -1,5 +1,5 @@
 import App from "../app";
-import ThoriumClient from "../classes/thoriumClient";
+import Client from "../classes/client";
 import Sound from "../classes/sound";
 import Viewscreen from "../classes/viewscreen";
 import {pubsub} from "../helpers/subscriptionManager";
@@ -8,7 +8,7 @@ import paths from "../helpers/paths";
 import fs from "fs";
 import uuid from "uuid";
 import tokenGenerator from "../helpers/tokenGenerator";
-import {ThoriumDMXFixture} from "../classes";
+import {DMXFixture} from "../classes";
 
 function randomFromList(list) {
   if (!list) return;
@@ -48,7 +48,7 @@ App.on("clientConnect", ({client, label, mobile, cards}) => {
     clientObj.connect({mobile, label, cards});
   } else {
     // Add it to the server
-    const newClient = new ThoriumClient({
+    const newClient = new Client({
       id: client,
       connected: true,
       label,
@@ -113,7 +113,7 @@ App.on("clientSetStation", ({client, stationName, cb}) => {
     );
     if (dmxSet) {
       dmxSet.fixtures.forEach(f => {
-        const fixture = new ThoriumDMXFixture({
+        const fixture = new DMXFixture({
           ...f,
           id: null,
           simulatorId,
@@ -145,7 +145,7 @@ App.on("clientActivateLights", ({clientId, dmxSetId}) => {
   const dmxSet = App.dmxSets.find(s => s.id === dmxSetId);
   if (dmxSet) {
     dmxSet.fixtures.forEach(f => {
-      const fixture = new ThoriumDMXFixture({
+      const fixture = new DMXFixture({
         ...f,
         id: null,
         simulatorId,

@@ -3,7 +3,7 @@ import {gql, withFilter} from "apollo-server-express";
 import {pubsub} from "../helpers/subscriptionManager";
 import {StationResolver} from "../helpers/stationResolver";
 import uuid from "uuid";
-import {ThoriumClient, Card} from "../classes";
+import {Client, Card} from "../classes";
 const mutationHelper = require("../helpers/mutationHelper").default;
 // We define a schema that encompasses all of the types
 // necessary for the functionality in this file.
@@ -296,7 +296,7 @@ const resolver = {
     mobile(client) {
       return Boolean(client.mobile);
     },
-    currentCard(client: ThoriumClient) {
+    currentCard(client: Client) {
       const simulator = App.simulators.find(s => s.id === client.simulatorId);
       if (!simulator) return null;
       const station = StationResolver(client);

@@ -45,8 +45,8 @@ class Events extends EventEmitter {
   flights: ClassesImport.Flight[] = [];
   missions: ClassesImport.Mission[] = [];
   systems: any[] = [];
-  clients: ClassesImport.ThoriumClient[] = [];
-  sets: ClassesImport.ThoriumSet[] = [];
+  clients: ClassesImport.Client[] = [];
+  sets: ClassesImport.Set[] = [];
   decks: ClassesImport.Deck[] = [];
   rooms: ClassesImport.Room[] = [];
   crew: ClassesImport.Crew[] = [];
@@ -81,10 +81,10 @@ class Events extends EventEmitter {
   midiSets: ClassesImport.MidiSet[] = [];
   entities: ClassesImport.Entity[] = [];
   motus: Motu[] = [];
-  dmxDevices: ClassesImport.ThoriumDMXDevice[] = [];
-  dmxFixtures: ClassesImport.ThoriumDMXFixture[] = [];
-  dmxConfigs: ClassesImport.ThoriumDMXConfig[] = [];
-  dmxSets: ClassesImport.ThoriumDMXSet[] = [];
+  dmxDevices: ClassesImport.DMXDevice[] = [];
+  dmxFixtures: ClassesImport.DMXFixture[] = [];
+  dmxConfigs: ClassesImport.DMXConfig[] = [];
+  dmxSets: ClassesImport.DMXSet[] = [];
   hackingPresets: ClassesImport.HackingPreset[] = [];
   printQueue: {
     id: string;
