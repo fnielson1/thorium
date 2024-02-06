@@ -1,4 +1,4 @@
-import {gql} from "apollo-server-express";
+import {gql} from "graphql-tag";
 import {pubsub} from "../helpers/subscriptionManager";
 import {getFolders} from "../helpers/uploadAsset";
 import path from "path";
@@ -103,7 +103,7 @@ const resolver = {
         files.map(file => {
           const filePath = `${assetDir}${folderPath}/${file.name}`;
           const dest = path.resolve(`${os.tmpdir()}/${file.name}-${uuid.v4()}`);
-          return new Promise(resolve =>
+          return new Promise<void>(resolve =>
             download(file.url, dest, err => {
               if (err) {
                 console.error("There was an error", err);

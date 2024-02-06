@@ -1,8 +1,5 @@
-import {
-  ApolloServer,
-  makeExecutableSchema,
-  ApolloServerExpressConfig,
-} from "apollo-server-express";
+import {ApolloServer, ApolloServerOptionsWithSchema} from "@apollo/server";
+import {makeExecutableSchema} from "@graphql-tools/schema";
 import express from "express";
 import vanity from "./vanity";
 import https from "https";
@@ -10,7 +7,7 @@ import http from "http";
 import path from "path";
 import fs from "fs";
 import ipAddress from "../helpers/ipaddress";
-import {typeDefs, resolvers} from "../data";
+import {resolvers, typeDefs} from "../data";
 import chalk from "chalk";
 import url from "url";
 import paths from "../helpers/paths";
@@ -18,15 +15,16 @@ import App from "../app";
 // Load some other stuff
 import "../events";
 import "../processes";
-import {FieldNode, getOperationRootType, printSchema} from "graphql";
+import {FieldNode, getOperationRootType, Kind, printSchema} from "graphql";
 import {getArgumentValues} from "graphql/execution/values";
 import {getFieldDef} from "graphql/execution/execute";
+import type {Kind} from "graphql/language/kinds";
 
 export const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
   resolverValidationOptions: {
-    requireResolversForResolveType: false,
+    requireResolversForResolveType: 'ignore',
   },
 });
 if (process.env.NODE_ENV === "development" && !process.env.CI) {
@@ -55,7 +53,13 @@ function responseForOperation(requestContext) {
   const selection = operation.selectionSet.selections[0] as FieldNode;
   const opName = selection.name.value;
   const parentType = getOperationRootType(schema, operation);
-  const fieldDef = getFieldDef(schema, parentType, opName);
+  const fieldDef = getFieldDef(schema, parentType, {
+    kind: Kind.FIELD,
+    name: {
+      kind: Kind.NAME,
+      value: opName
+    }
+  });
   const args = getArgumentValues(
     fieldDef,
     operation.selectionSet.selections[0] as FieldNode,
@@ -118,7 +122,7 @@ function responseForOperation(requestContext) {
       opName,
       requestContext.context,
     );
-    timeout = setTimeout(() => resolve(), 500);
+    timeout = setTimeout(() => resolve(null), 500);
   });
 }
 
@@ -130,7 +134,7 @@ export default (
 ) => {
   // Apply the mutations to App.js so we don't get circular dependency issues
   setMutations(resolvers.Mutation);
-  const graphqlOptions: ApolloServerExpressConfig = {
+  const graphqlOptions: ApolloServerOptionsWithSchema<any> = {
     schema,
     engine: {
       apiKey: "service:Thorium:yZHa-qq7-_kVSpmsc9Ka1A",
@@ -142,9 +146,11 @@ export default (
     plugins: [
       {
         requestDidStart() {
-          return {
-            responseForOperation,
-          };
+          return new Promise<void>((resolve) => {
+            return {
+              responseForOperation,
+            };
+          });
         },
       },
     ],

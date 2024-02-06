@@ -5,7 +5,7 @@ import os from "os";
 import uuid from "uuid";
 import importMission from "../imports/missions/import";
 import importSimulator from "../imports/simulators/import";
-import {gql} from "apollo-server-express";
+import {gql} from "graphql-tag";
 
 // We define a schema that encompasses all of the types
 // necessary for the functionality in this file.
@@ -41,7 +41,7 @@ const download = function (url, dest, callback) {
   fetch(url)
     .then(
       res =>
-        new Promise((resolve, reject) => {
+        new Promise<void>((resolve, reject) => {
           if (res.status !== 200) return reject("Error downloading file.");
           const file = fs.createWriteStream(dest);
           res.body.pipe(file);
