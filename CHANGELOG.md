@@ -1,3 +1,94 @@
+# [3.10.0](https://github.com/Thorium-Sim/thorium/compare/3.9.0...3.10.0) (2023-08-19)
+
+
+### Bug Fixes
+
+* **Import:** Fixed an issue where interfaces would not appear correctly after importing a flight. Sponsored by the Space Place at Renaissance Academy ([eac6180](https://github.com/Thorium-Sim/thorium/commit/eac6180b6d93e2781ba45868e02f66b4ee6e81b8))
+* **Import:** Fixed an issue where probes did not appear after importing a flight. Sponsored by the Space Place at Renaissance Academy ([ec24f6a](https://github.com/Thorium-Sim/thorium/commit/ec24f6a571645a29aedc1c06f0fe907f5401db2b))
+* **Import:** Fixed an issue where tasks and task flows would not behave correctly after importing a flight. Sponsored by the Space Place at Renaissance Academy ([c9169c9](https://github.com/Thorium-Sim/thorium/commit/c9169c926860f57172a1de9dd317e23c3adafa3b))
+* **Import:** Fixed an issue where team crew members would not be present after importing a flight. Sponsored by the Space Place at Renaissance Academy ([3146e60](https://github.com/Thorium-Sim/thorium/commit/3146e601f60c7808056da79b40c77b5c49fb1a6f))
+* **Import:** System power levels are now set to the correct level after flight import. Sponsored by the Space Place at Renaissance Academy ([eafa6e4](https://github.com/Thorium-Sim/thorium/commit/eafa6e46cc53d91f65709e8b096f03e560bbd84d))
+
+
+### Features
+
+* **Sensors:** Enable moving contacts over a specific number of seconds. Sponsored by the Space Place at Renaissance Academy ([010ae09](https://github.com/Thorium-Sim/thorium/commit/010ae09b5a8ff607e4a4e272e2943b66d5c7c935))
+
+# [3.9.0](https://github.com/Thorium-Sim/thorium/compare/3.8.0...3.9.0) (2023-06-21)
+
+
+### Bug Fixes
+
+* Auto-thrusters now rotates the ship the correct direction. ([da6ee78](https://github.com/Thorium-Sim/thorium/commit/da6ee7843ac5353aac536a707cf85b2247051b63))
+
+
+### Features
+
+* Added Hull Plating System ([7a53fb0](https://github.com/Thorium-Sim/thorium/commit/7a53fb0fab4b6f85599c8300459ac71d9e7064ee))
+* Adds hull plating card and core. Thanks Mitchell! ([b9f4bea](https://github.com/Thorium-Sim/thorium/commit/b9f4beae8f8e35476a218fd13d2098f0aecb7b4c))
+
+# [3.9.0](https://github.com/Thorium-Sim/thorium/compare/3.8.0...3.9.0) (2023-06-21)
+
+
+### Bug Fixes
+
+* Auto-thrusters now rotates the ship the correct direction. ([da6ee78](https://github.com/Thorium-Sim/thorium/commit/da6ee7843ac5353aac536a707cf85b2247051b63))
+
+
+### Features
+
+* Added Hull Plating System ([7a53fb0](https://github.com/Thorium-Sim/thorium/commit/7a53fb0fab4b6f85599c8300459ac71d9e7064ee))
+* Adds hull plating card and core. Thanks Mitchell! ([b9f4bea](https://github.com/Thorium-Sim/thorium/commit/b9f4beae8f8e35476a218fd13d2098f0aecb7b4c))
+
+# [3.9.0](https://github.com/Thorium-Sim/thorium/compare/3.8.0...3.9.0) (2023-06-20)
+
+
+### Bug Fixes
+
+* Auto-thrusters now rotates the ship the correct direction. ([da6ee78](https://github.com/Thorium-Sim/thorium/commit/da6ee7843ac5353aac536a707cf85b2247051b63))
+
+
+### Features
+
+* Added Hull Plating System ([7a53fb0](https://github.com/Thorium-Sim/thorium/commit/7a53fb0fab4b6f85599c8300459ac71d9e7064ee))
+* Adds hull plating card and core. Thanks Mitchell! ([b9f4bea](https://github.com/Thorium-Sim/thorium/commit/b9f4beae8f8e35476a218fd13d2098f0aecb7b4c))
+
+# [3.9.0](https://github.com/Thorium-Sim/thorium/compare/3.8.0...3.9.0) (2023-06-20)
+
+
+### Bug Fixes
+
+* Auto-thrusters now rotates the ship the correct direction. ([da6ee78](https://github.com/Thorium-Sim/thorium/commit/da6ee7843ac5353aac536a707cf85b2247051b63))
+
+
+### Features
+
+* Added Hull Plating System ([7a53fb0](https://github.com/Thorium-Sim/thorium/commit/7a53fb0fab4b6f85599c8300459ac71d9e7064ee))
+* Adds hull plating card and core. Thanks Mitchell! ([b9f4bea](https://github.com/Thorium-Sim/thorium/commit/b9f4beae8f8e35476a218fd13d2098f0aecb7b4c))
+
+## [3.9.1](https://github.com/Thorium-Sim/thorium/compare/3.9.0...3.9.1) (2023-06-19)
+
+
+### Bug Fixes
+
+* Auto-thrusters now rotates the ship the correct direction. ([da6ee78](https://github.com/Thorium-Sim/thorium/commit/da6ee7843ac5353aac536a707cf85b2247051b63))
+
+# [3.9.0](https://github.com/Thorium-Sim/thorium/compare/3.8.0...3.9.0) (2023-04-06)
+
+
+### Features
+
+* Added Hull Plating System ([7a53fb0](https://github.com/Thorium-Sim/thorium/commit/7a53fb0fab4b6f85599c8300459ac71d9e7064ee))
+* Adds hull plating card and core. Thanks Mitchell! ([b9f4bea](https://github.com/Thorium-Sim/thorium/commit/b9f4beae8f8e35476a218fd13d2098f0aecb7b4c))
+
+# [3.9.0](https://github.com/Thorium-Sim/thorium/compare/3.8.0...3.9.0) (2023-04-06)
+
+
+### Features
+
+* Added Hull Plating System ([7a53fb0](https://github.com/Thorium-Sim/thorium/commit/7a53fb0fab4b6f85599c8300459ac71d9e7064ee))
+* Adds hull plating card and core. Thanks Mitchell! ([b9f4bea](https://github.com/Thorium-Sim/thorium/commit/b9f4beae8f8e35476a218fd13d2098f0aecb7b4c))
+
 # [3.8.0](https://github.com/Thorium-Sim/thorium/compare/3.7.1...3.8.0) (2022-10-06)
 
 
