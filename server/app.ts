@@ -49,7 +49,7 @@ class Events extends EventEmitter {
   coreLayouts: ClassesImport.CoreLayout[] = [];
   coreFeed: ClassesImport.CoreFeed[] = [];
   viewscreens: ClassesImport.Viewscreen[] = [];
-  messages: ClassesImport.ThoriumMessage[] = [];
+  messages: ClassesImport.Message[] = [];
   tacticalMaps: ClassesImport.TacticalMap[] = [];
   officerLogs: ClassesImport.OfficerLog[] = [];
   exocomps: ClassesImport.Exocomp[] = [];

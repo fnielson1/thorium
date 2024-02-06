@@ -29,7 +29,7 @@ export {default as Crew} from "./crew";
 export {default as Team} from "./teams";
 export {default as ThoriumSet, SetClient} from "./thoriumSet";
 export {default as Viewscreen} from "./viewscreen";
-export {default as ThoriumMessage} from "./thoriumMessage";
+export {default as Message} from "./message";
 export {default as Isochip} from "./isochips";
 export {default as DockingPort} from "./docking";
 export {default as CoreFeed} from "./coreFeed";
