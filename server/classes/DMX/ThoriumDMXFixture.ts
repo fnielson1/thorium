@@ -1,6 +1,6 @@
-import uuid from "uuid";
 import App from "../../app";
-import {DMXChannelProperty} from "./DMXDevice";
+import {DMXChannelProperty} from "./ThoriumDMXDevice";
+import {BaseClass} from "~classes/baseClass";
 export type ChannelConfig = Partial<
   {
     [key in Exclude<DMXChannelProperty, "red" | "green" | "blue"> | "color"]:
@@ -8,10 +8,7 @@ export type ChannelConfig = Partial<
       | string;
   }
 >;
-export default class DMXFixture {
-  class: "DMXFixture" = "DMXFixture";
-  id: string;
-  name: string;
+export default class ThoriumDMXFixture extends BaseClass<ThoriumDMXFixture> {
   DMXDeviceId: string;
   simulatorId: string | null;
   clientId: string | null;
@@ -19,8 +16,9 @@ export default class DMXFixture {
   mode: "active" | "passive";
   tags: ("main" | "accent" | "work" | "no effects" | string)[];
   passiveChannels: ChannelConfig;
-  constructor(params: Partial<DMXFixture> = {}) {
-    this.id = params.id || uuid.v4();
+
+  constructor(params: Partial<ThoriumDMXFixture> = {}) {
+    super(params, "DMXFixture");
     this.name = params.name || "DMX Fixture";
     this.DMXDeviceId = params.DMXDeviceId;
     this.simulatorId = params.simulatorId || null;

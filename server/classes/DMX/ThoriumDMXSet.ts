@@ -1,32 +1,31 @@
-import uuid from "uuid";
 import App from "../../app";
-import DMXFixture from "./DMXFixture";
+import ThoriumDMXFixture from "./ThoriumDMXFixture";
+import {BaseClass} from "~classes/baseClass";
 
-export default class DMXSet {
-  class: "DMXSet" = "DMXSet";
-  id: string;
-  name: string;
+export default class ThoriumDMXSet extends BaseClass<ThoriumDMXSet> {
+  static exportable = "dmxSets";
   fixtureIds: string[];
-  constructor(params: Partial<DMXSet> = {}) {
-    this.id = params.id || uuid.v4();
+
+  constructor(params: Partial<ThoriumDMXSet> = {}) {
+    super(params, "DMXSet");
     this.name = params.name || "DMX Set";
     this.fixtureIds = params.fixtureIds || [];
   }
-  static exportable = "dmxSets";
+
   serialize({addData}) {
     const filename = `${this.name}.dmxSet`;
     const data = {...this, fixtures: this.fixtures};
     addData("dmxSets", data);
     return filename;
   }
-  static import(data: DMXSet) {
+  static import(data: ThoriumDMXSet) {
     // Extract and load the fixtures
     const fixtureIds = data.fixtures.map(f => {
-      const fixture = new DMXFixture({...f, id: null});
+      const fixture = new ThoriumDMXFixture({...f, id: null});
       App.dmxFixtures.push(fixture);
       return fixture.id;
     });
-    const dmxSet = new DMXSet({...data, fixtureIds, id: null});
+    const dmxSet = new ThoriumDMXSet({...data, fixtureIds, id: null});
     App.dmxSets.push(dmxSet);
   }
   get fixtures() {

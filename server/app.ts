@@ -9,6 +9,13 @@ import handleTrigger from "./helpers/handleTrigger";
 import Motu from "motu-control";
 import {setAutoFreeze} from "immer";
 
+
+export interface IMigrations {
+  assets: boolean;
+  dmx: boolean;
+}
+
+
 setAutoFreeze(false);
 
 const Classes: {[index: string]: any} = {
@@ -31,6 +38,7 @@ const store = new Store({
   path: `${snapshotDir}${snapshotName}`,
   debounce: 1000 * 30,
 });
+
 class Events extends EventEmitter {
   simulators: ClassesImport.Simulator[] = [];
   stationSets: ClassesImport.StationSet[] = [];
@@ -73,10 +81,10 @@ class Events extends EventEmitter {
   midiSets: ClassesImport.MidiSet[] = [];
   entities: ClassesImport.Entity[] = [];
   motus: Motu[] = [];
-  dmxDevices: ClassesImport.DMXDevice[] = [];
-  dmxFixtures: ClassesImport.DMXFixture[] = [];
-  dmxConfigs: ClassesImport.DMXConfig[] = [];
-  dmxSets: ClassesImport.DMXSet[] = [];
+  dmxDevices: ClassesImport.ThoriumDMXDevice[] = [];
+  dmxFixtures: ClassesImport.ThoriumDMXFixture[] = [];
+  dmxConfigs: ClassesImport.ThoriumDMXConfig[] = [];
+  dmxSets: ClassesImport.ThoriumDMXSet[] = [];
   hackingPresets: ClassesImport.HackingPreset[] = [];
   printQueue: {
     id: string;
@@ -85,7 +93,7 @@ class Events extends EventEmitter {
     timestamp: number;
   }[] = [];
   autoUpdate = true;
-  migrations: any = {assets: true, dmx: false};
+  migrations: IMigrations = {assets: true, dmx: false};
   thoriumId: string = randomWords(5).join("-");
   doTrack: boolean = false;
   askedToTrack: boolean = false;

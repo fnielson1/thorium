@@ -1,9 +1,8 @@
-// Migrations that should happen after App is instantiated
 import App from "../app";
 import {InterfaceDevice} from "../classes/interface";
-import {Entity, DMXDevice} from "../classes";
+import {Entity, ThoriumDMXDevice} from "../classes";
 import * as components from "../classes/universe/components";
-import type {DMXAlertConfig} from "../classes/DMX/DMXConfig";
+import type {DMXAlertConfig} from "../classes/DMX/ThoriumDMXConfig";
 
 export default () => {
   return new Promise<void>(done => {
@@ -95,7 +94,7 @@ export default () => {
             "uv",
           ],
         },
-      ].map((d: DMXDevice) => new DMXDevice(d));
+      ].map((d: ThoriumDMXDevice) => new ThoriumDMXDevice(d));
     }
     if (!App.migrations.dmx) {
       App.migrations.dmx = true;

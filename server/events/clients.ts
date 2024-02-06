@@ -8,7 +8,7 @@ import paths from "../helpers/paths";
 import fs from "fs";
 import uuid from "uuid";
 import tokenGenerator from "../helpers/tokenGenerator";
-import {DMXFixture} from "../classes";
+import {ThoriumDMXFixture} from "../classes";
 
 function randomFromList(list) {
   if (!list) return;
@@ -113,7 +113,7 @@ App.on("clientSetStation", ({client, stationName, cb}) => {
     );
     if (dmxSet) {
       dmxSet.fixtures.forEach(f => {
-        const fixture = new DMXFixture({
+        const fixture = new ThoriumDMXFixture({
           ...f,
           id: null,
           simulatorId,
@@ -145,7 +145,7 @@ App.on("clientActivateLights", ({clientId, dmxSetId}) => {
   const dmxSet = App.dmxSets.find(s => s.id === dmxSetId);
   if (dmxSet) {
     dmxSet.fixtures.forEach(f => {
-      const fixture = new DMXFixture({
+      const fixture = new ThoriumDMXFixture({
         ...f,
         id: null,
         simulatorId,

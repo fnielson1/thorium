@@ -37,9 +37,12 @@ import {
   MacroButtonConfig,
   MidiSet,
   Entity,
+  ThoriumDMXSet,
+  Sound, ThoriumDMXConfig, ThoriumDMXDevice, HackingPreset,
 } from "~classes";
-import Sound from "~classes/sound";
 import Motu from "motu-control";
+import {IMigrations} from "~app";
+
 
 interface ISnapshot {
   _eventsCount: number;
@@ -84,4 +87,28 @@ interface ISnapshot {
   midiSets: MidiSet[];
   entities: Entity;
   motus: Motu[];
+  dmxSets: ThoriumDMXSet[];
+  dmxConfigs: ThoriumDMXConfig[];
+  dmxDevices: ThoriumDMXDevice[];
+  hackingPresets: HackingPreset[];
+  autoUpdate: boolean;
+  thoriumId: string;
+  doTrack: boolean;
+  askedToTrack: boolean;
+  addedTaskTemplates: boolean;
+  spaceEdventuresToken: string;
+  googleSheetsTokens: unknown;
+  migrations: IMigrations;
+  port: number;
+  httpOnly: boolean;
+  events: unknown[];
+  replaying: boolean;
+  snapshotVersion: number;
+  version: number;
+  timestamp: string;
+  mutations: unknown;
+  assetFolders: unknown[];
+  assetContainers: unknown[];
+  assetObjects: unknown[];
+  printQueue: unknown[];
 }

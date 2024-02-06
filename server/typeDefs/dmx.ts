@@ -1,7 +1,7 @@
 import App from "../app";
 import {gql, withFilter} from "apollo-server-express";
 import {pubsub} from "../helpers/subscriptionManager";
-import {DMXConfig, DMXDevice, DMXFixture, DMXSet} from "../classes";
+import {ThoriumDMXConfig, ThoriumDMXDevice, ThoriumDMXFixture, ThoriumDMXSet} from "../classes";
 import uuid from "uuid";
 
 const schema = gql`
@@ -200,7 +200,7 @@ const resolver = {
   },
   Mutation: {
     dmxDeviceCreate(rootValue, {name}) {
-      const device = new DMXDevice({name});
+      const device = new ThoriumDMXDevice({name});
       App.dmxDevices.push(device);
       pubsub.publish("dmxDevices", App.dmxDevices);
       return device.id;
@@ -220,7 +220,7 @@ const resolver = {
       pubsub.publish("dmxDevices", App.dmxDevices);
     },
     dmxSetCreate(rootValue, {name}) {
-      const set = new DMXSet({name});
+      const set = new ThoriumDMXSet({name});
       App.dmxSets.push(set);
       pubsub.publish("dmxSets", App.dmxSets);
       return set.id;
@@ -240,11 +240,11 @@ const resolver = {
       // Duplicate all of the fixtures in the set
       const newFixtures = set.fixtureIds.map(fId => {
         const {id: _, ...f} = App.dmxFixtures.find(f => fId === f.id);
-        const fixture = new DMXFixture(f);
+        const fixture = new ThoriumDMXFixture(f);
         App.dmxFixtures.push(fixture);
         return fixture.id;
       });
-      const newSet = new DMXSet({...set, name, fixtureIds: newFixtures});
+      const newSet = new ThoriumDMXSet({...set, name, fixtureIds: newFixtures});
       App.dmxSets.push(newSet);
       pubsub.publish("dmxSets", App.dmxSets);
       return newSet.id;
@@ -256,7 +256,7 @@ const resolver = {
     },
     dmxFixtureCreate(rootValue, {DMXSetId, name, DMXDeviceId}) {
       const set = App.dmxSets.find(f => f.id === DMXSetId);
-      const fixture = new DMXFixture({name, DMXDeviceId});
+      const fixture = new ThoriumDMXFixture({name, DMXDeviceId});
       set.setFixtures(set.fixtureIds.concat(fixture.id));
       App.dmxFixtures.push(fixture);
 
@@ -390,7 +390,7 @@ const resolver = {
       });
     },
     dmxConfigCreate(rootValue, {name}) {
-      const config = new DMXConfig({name});
+      const config = new ThoriumDMXConfig({name});
       App.dmxConfigs.push(config);
 
       pubsub.publish("dmxConfigs", App.dmxConfigs);
@@ -404,7 +404,7 @@ const resolver = {
       const {id: configId, ...configuration} = App.dmxConfigs.find(
         f => f.id === id,
       );
-      const newConfig = new DMXConfig({...configuration, name});
+      const newConfig = new ThoriumDMXConfig({...configuration, name});
       App.dmxConfigs.push(newConfig);
       pubsub.publish("dmxConfigs", App.dmxConfigs);
       return newConfig.id;
@@ -455,7 +455,7 @@ const resolver = {
       },
     },
     dmxFixtures: {
-      resolve(rootValue: {fixtures: DMXFixture[]}, {clientId}) {
+      resolve(rootValue: {fixtures: ThoriumDMXFixture[]}, {clientId}) {
         if (clientId)
           return rootValue.fixtures.filter(c => c.clientId === clientId);
         return rootValue.fixtures;

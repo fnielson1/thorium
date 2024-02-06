@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import {BaseClass} from "~classes/baseClass";
 
 export type DMXChannelProperty =
   | "red"
@@ -13,13 +13,11 @@ export type DMXChannelProperty =
   | "focus"
   | "nothing";
 
-class DMXDevice {
-  class: "DMXDevice" = "DMXDevice";
-  id: string;
-  name: string;
+class ThoriumDMXDevice extends BaseClass<ThoriumDMXDevice> {
   channels: DMXChannelProperty[];
-  constructor(params: Partial<DMXDevice> = {}) {
-    this.id = params.id || uuid.v4();
+
+  constructor(params: Partial<ThoriumDMXDevice> = {}) {
+    super(params, "DMXDevice");
     this.name = params.name || "DMX Device";
     this.channels = params.channels || [];
   }
@@ -31,4 +29,4 @@ class DMXDevice {
   }
 }
 
-export default DMXDevice;
+export default ThoriumDMXDevice;

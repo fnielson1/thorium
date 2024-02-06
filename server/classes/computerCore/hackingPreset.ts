@@ -1,8 +1,7 @@
-import uuid from "uuid";
 import {File} from "./";
-export class HackingPreset {
-  id: string;
-  name: string;
+import {BaseClass} from "~classes/baseClass";
+
+export class HackingPreset extends BaseClass<HackingPreset> {
   logs: boolean;
   longRange: boolean;
   longRangeMessages: {id: string; title: string; message: string}[];
@@ -10,8 +9,9 @@ export class HackingPreset {
   commandLines: string[];
   fileViewer: boolean;
   files: File[];
+
   constructor(params: Partial<HackingPreset> = {}) {
-    this.id = params.id || uuid.v4();
+    super(params, "HackingPreset");
     this.name = params.name || "Hacking Preset";
     this.logs = params.logs ?? true;
     this.longRange = params.longRange ?? true;

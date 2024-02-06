@@ -1,6 +1,6 @@
-import uuid from "uuid";
-import {ChannelConfig} from "./DMXFixture";
+import {ChannelConfig} from "./ThoriumDMXFixture";
 import App from "../../app";
+import {BaseClass} from "~classes/baseClass";
 
 export type DMXAlertConfig = {[tag: string]: ChannelConfig};
 type DMXConfigStuff = {
@@ -13,15 +13,14 @@ type DMXConfigStuff = {
   darken?: DMXAlertConfig;
 };
 
-class DMXConfig {
+class ThoriumDMXConfig extends BaseClass<ThoriumDMXConfig> {
   static exportable = "dmxConfigs";
-  class: "DMXConfig" = "DMXConfig";
-  id: string;
   name: string;
   config: DMXConfigStuff;
   actionStrength: number;
-  constructor(params: Partial<DMXConfig> = {}) {
-    this.id = params.id || uuid.v4();
+
+  constructor(params: Partial<ThoriumDMXConfig> = {}) {
+    super(params, "DMXConfig")
     this.name = params.name || "DMX Config";
     this.config = params.config || {};
     this.actionStrength = params.actionStrength ?? 1;
@@ -31,8 +30,8 @@ class DMXConfig {
     addData("dmxConfigs", this);
     return filename;
   }
-  static import(data: DMXConfig) {
-    const config = new DMXConfig({...data, id: null});
+  static import(data: ThoriumDMXConfig) {
+    const config = new ThoriumDMXConfig({...data, id: null});
     App.dmxConfigs.push(config);
   }
   setName(name: string) {
@@ -46,4 +45,4 @@ class DMXConfig {
   }
 }
 
-export default DMXConfig;
+export default ThoriumDMXConfig;
