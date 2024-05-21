@@ -8,6 +8,7 @@ import heap from "./helpers/heap";
 import handleTrigger from "./helpers/handleTrigger";
 import Motu from "motu-control";
 import {setAutoFreeze} from "immer";
+import {IPrintQueue} from "~migrationUtils/snapshot";
 
 setAutoFreeze(false);
 
@@ -78,12 +79,7 @@ class Events extends EventEmitter {
   dmxConfigs: ClassesImport.DMXConfig[] = [];
   dmxSets: ClassesImport.DMXSet[] = [];
   hackingPresets: ClassesImport.HackingPreset[] = [];
-  printQueue: {
-    id: string;
-    asset: string;
-    simulatorId: string;
-    timestamp: number;
-  }[] = [];
+  printQueue: IPrintQueue[] = [];
   autoUpdate = true;
   migrations: any = {assets: true, dmx: false};
   thoriumId: string = randomWords(5).join("-");
